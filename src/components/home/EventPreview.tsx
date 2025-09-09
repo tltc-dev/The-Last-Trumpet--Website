@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { events } from "@/lib/data";
+import { event } from "@/lib/data";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const EventPreview = () => {
@@ -20,19 +20,19 @@ const EventPreview = () => {
   }, [current]);
 
   const handleNext = () => {
-    setCurrent((prev) => (prev + 1) % events.length);
+    setCurrent((prev) => (prev + 1) % event.length);
   };
 
   const handlePrev = () => {
-    setCurrent((prev) => (prev - 1 + events.length) % events.length);
+    setCurrent((prev) => (prev - 1 + event.length) % event.length);
   };
 
   return (
-    <div className=" flex flex-col w-full">
+    <div className="padding flex flex-col w-full z-20 relative overflow-hidden ">
       <div className="relative flex w-full max-w-6xl mx-auto overflow-hidden h-[400px] md:h-[500px] lg:h-[400px] 2xl:h-[600px]">
-        {events.map((event, i) => {
-          const prevIndex = (current - 1 + events.length) % events.length;
-          const nextIndex = (current + 1) % events.length;
+        {event.map((evt, i) => {
+          const prevIndex = (current - 1 + event.length) % event.length;
+          const nextIndex = (current + 1) % event.length;
 
           let position: "prev" | "current" | "next" | "hidden" = "hidden";
           if (i === current) position = "current";
@@ -41,7 +41,7 @@ const EventPreview = () => {
 
           return (
             <motion.div
-              key={event.id}
+              key={evt.id}
               animate={{
                 flex: position === "next" ? 2 : position === "hidden" ? 0 : 1,
                 opacity:
@@ -50,22 +50,22 @@ const EventPreview = () => {
               }}
               transition={{ duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] }}
               className={`relative overflow-hidden shadow-lg  ${
-                position === "hidden" ? "pointer-events-none" : ""
+                position === "hidden" ? "pointer-event-none" : ""
               }`}
             >
               <Image
-                src={event.image}
-                alt={event.title}
+                src={evt.image}
+                alt={evt.title}
                 fill
                 className="object-cover"
               />
               {/* Overlay */}
               <div className="absolute bottom-4 left-4 text-white">
-                <h3 className="text-lg font- pb-3">{event.title}</h3>
+                <h3 className="text-lg font- pb-3">{evt.title}</h3>
                 <p className="text-xs">
-                  {event.date} • {event.time}
+                  {evt.date} • {evt.time}
                 </p>
-                <p className="text-xs">{event.location}</p>
+                <p className="text-xs">{evt.location}</p>
               </div>
               <button className="absolute top-4 left-4 bg-black/50 px-3 py-1 text-white text-xs">
                 Register
@@ -78,13 +78,13 @@ const EventPreview = () => {
       {/* Controls - bottom right */}
 
       <div className="w-full flex justify-end gap-3 pt-10">
-        <button className="button flex items-center justify-between w-fit">
-          All Events <ChevronRight strokeWidth="1.5" />
+        <button className="button-rounded flex items-center justify-between w-fit">
+          All Event <ChevronRight strokeWidth="1.5" />
         </button>
-        <button onClick={handlePrev} className="button-rounded w-9 h-9">
+        <button onClick={handlePrev} className="button-trans w-9 h-9">
           <ChevronLeft size={24} strokeWidth={2} />
         </button>
-        <button onClick={handleNext} className="button-rounded w-9 h-9">
+        <button onClick={handleNext} className="button-trans w-9 h-9">
           <ChevronRight size={24} strokeWidth={2} />
         </button>
       </div>

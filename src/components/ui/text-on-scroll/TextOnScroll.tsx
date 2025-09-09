@@ -2,7 +2,8 @@
 import { useRef, useEffect, RefObject } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
+import { useTheme } from "next-themes";
 interface Props {
   contain: RefObject<HTMLDivElement | null>;
   phrase: string;
@@ -16,18 +17,20 @@ const TextOpacityOnScroll: React.FC<Props> = ({
 }) => {
   const refs = useRef<HTMLSpanElement[]>([]);
   const body = useRef<HTMLDivElement>(null);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     createAnimation();
   }, []);
 
+  // const color = resolvedTheme === "dark" ? "#000" : "#fff";
   const createAnimation = () => {
     gsap.to(refs.current, {
       keyframes: [
-        { color: "orange", opacity: 1, duration: 0.1 },
+        { color: "orange", opacity: 1, duration: 0.01 },
         { color: "#F3A560", opacity: 1, duration: 0.4 },
-        { color: "white", duration: 0.5 },
+        { color: "var(--color)", opacity: 0.6, duration: 0.5 },
       ],
       stagger: 0.1,
       ease: "none",
@@ -35,7 +38,7 @@ const TextOpacityOnScroll: React.FC<Props> = ({
         trigger: body.current,
         scrub: true,
 
-        //   start: "top ",
+        start: "top 30%",
         end: `+=${window.innerHeight / 1.1}`,
       },
     });
@@ -56,7 +59,7 @@ const TextOpacityOnScroll: React.FC<Props> = ({
         ref={(el) => {
           if (el) refs.current.push(el);
         }}
-        className="opacity-50 "
+        className="opacity-20 "
       >
         {letter}
       </span>
@@ -66,7 +69,7 @@ const TextOpacityOnScroll: React.FC<Props> = ({
   return (
     <main
       className={cn(
-        "flex flex-col items-end justify-center leading-relaxed text-white/90 ",
+        "flex flex-col items-end justify-center leading-relaxed  ",
         className
       )}
     >

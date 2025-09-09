@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TextAnimation from "./ui/TextAnimation";
+import TextAnimation from "../ui/TextAnimation";
 import { AnimatePresence, m, motion } from "framer-motion";
 import { faqs } from "@/lib/data";
 
@@ -28,15 +28,15 @@ const FAQ = (props: Props) => {
   );
 
   return (
-    <section className="flex justify-between h-screen py-20 w-full relative">
+    <section className="padding flex flex-col md:flex-row gap-20 md:gap-0  md:justify-between h-full py-20 w-full relative">
       <div className="flex flex-col gap-2">
         <TextAnimation
-          phrase="Frequently Asked"
-          className="text-4xl  text-white"
+          phrase="Frequently asked"
+          className="heading font-poppins"
         />
-        <TextAnimation phrase=" Questions" className="text-4xl  text-white" />
+        <TextAnimation phrase=" Questions" className="heading font-poppins" />
       </div>
-      <div className="w-1/2">
+      <div className="w-full md:w-1/2">
         <AnimatePresence mode="popLayout">
           {faqs.map((faq, index) => (
             <motion.div
@@ -48,12 +48,10 @@ const FAQ = (props: Props) => {
               className="border-b border-white/20 py-4 cursor-pointer flex flex-col justify-between  "
             >
               <div className="flex flex-row items- justify-between ">
-                <motion.p className="text-white font-medium">
-                  {faq.question}
-                </motion.p>
+                <motion.p className="font-medium">{faq.question}</motion.p>
                 <button
                   onClick={() => setOpen(index === open ? null : index)}
-                  className="rounded-full border border-white "
+                  className="rounded-full border  "
                 >
                   <motion.div
                     animate={{ rotate: index === open ? 45 : 0 }}
@@ -64,7 +62,9 @@ const FAQ = (props: Props) => {
                 </button>
               </div>
               {index === open && (
-                <motion.p className="w-4/5">{faq.answer}</motion.p>
+                <motion.p className="w-4/5 opacity-70 text-yellow-300 dark:text-red-400">
+                  {faq.answer}
+                </motion.p>
               )}
             </motion.div>
           ))}

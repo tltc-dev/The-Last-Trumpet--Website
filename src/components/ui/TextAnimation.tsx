@@ -1,62 +1,75 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import type { JSX } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 type Props = {
-  phrase?: string;
+  phrase?: string | string[];
   className?: string;
+  as?: keyof JSX.IntrinsicElements; // optional, choose tag
 };
 
-const TextAnimation = ({ phrase, className }: Props) => {
-  const textRef = React.useRef<HTMLDivElement>(null);
+const TextAnimation: React.FC<Props> = ({
+  phrase,
+  className,
+  as: Tag = "div",
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
-    const el = textRef.current;
+    const container = containerRef.current;
+    if (!container) return;
+    const color = resolvedTheme === "dark" ? "white" : "black";
+    const lines = Array.from(container.children) as HTMLElement[];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             gsap.fromTo(
-              el,
+              lines,
               { color: "white", opacity: 0, filter: "blur(8px)" },
               {
                 keyframes: [
-                  //   { color: "orange", opacity: 1, filter: "blur(3px)", duration:  0.1 },
                   {
                     color: "orange",
                     opacity: 1,
                     filter: "blur(1px)",
                     duration: 0.1,
                   },
-                  { color: "white", filter: "blur(0px)", duration: 0.05 },
+                  { color: color, filter: "blur(0px)", duration: 0.05 },
                 ],
                 ease: "power1.inOut",
                 duration: 1,
                 overwrite: "auto",
+                stagger: 0.15,
               }
             );
           } else {
-            gsap.to(el, { opacity: 0, duration: 0.1, overwrite: "auto" });
+            gsap.to(lines, { opacity: 0, duration: 0.1, overwrite: "auto" });
           }
         });
       },
       { threshold: 0.3 }
     );
 
-    if (el) observer.observe(el);
-    return () => {
-      if (el) observer.unobserve(el);
-    };
+    observer.observe(container);
+
+    return () => observer.disconnect();
   }, []);
 
+  const lines = Array.isArray(phrase) ? phrase : phrase ? [phrase] : [];
+
   return (
-    <h1
-      ref={textRef}
-      className={cn("text-4xl stroke-3 opacity-0 text-white ", className)}
-    >
-      {phrase}
-    </h1>
+    <div ref={containerRef}>
+      {lines.map((line, idx) => (
+        <Tag key={idx} className={cn("flex flex-col gap-2", className)}>
+          {line}
+        </Tag>
+      ))}
+    </div>
   );
 };
 

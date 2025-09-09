@@ -4,9 +4,21 @@ import image3 from "../../public/assets/3.jpg";
 import image4 from "../../public/assets/4.jpg";
 import image5 from "../../public/assets/5.jpg";
 
-export const images = [image2, image3, image4, image5];
+export default image1;
 
-export const events = [
+export const images = [
+  image2,
+  image3,
+  image4,
+  image5,
+  image1,
+  image2,
+  image5,
+  image1,
+  image2,
+];
+
+export const event = [
   {
     id: 1,
     title: "Sunday Service",
@@ -56,6 +68,16 @@ export const events = [
     location: "Main Sanctuary",
     description:
       "An evening of powerful worship and praise. Come and experience the presence of God with us.",
+    host: [
+      {
+        profile: image4,
+        name: "Jone",
+      },
+      {
+        profile: image5,
+        name: "Ramesh Devidiga",
+      },
+    ],
   },
   {
     id: 6,

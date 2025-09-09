@@ -25,9 +25,9 @@ const Progress = ({ images, index }: Props) => {
   }, [index, images.length]);
 
   return (
-    <div className=" flex flex-row gap-2 absolute bottom-2">
+    <div className="flex flex-row w-full gap-0.5 absolute bottom-1">
       {images.map((_, i) => (
-        <div key={i} className="h-[3px] w-10 bg-gray-400">
+        <div key={i} className="h-[3px] w-full bg-gray-400">
           {i === index && (
             <div
               ref={(el) => {
