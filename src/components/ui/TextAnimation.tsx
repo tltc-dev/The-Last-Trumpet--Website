@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { JSX } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
@@ -23,6 +23,7 @@ const TextAnimation: React.FC<Props> = ({
     const container = containerRef.current;
     if (!container) return;
     const color = resolvedTheme === "dark" ? "white" : "black";
+    console.log(color);
     const lines = Array.from(container.children) as HTMLElement[];
     const observer = new IntersectionObserver(
       (entries) => {
@@ -58,7 +59,7 @@ const TextAnimation: React.FC<Props> = ({
     observer.observe(container);
 
     return () => observer.disconnect();
-  }, []);
+  }, [resolvedTheme]);
 
   const lines = Array.isArray(phrase) ? phrase : phrase ? [phrase] : [];
 

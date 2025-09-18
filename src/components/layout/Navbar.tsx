@@ -6,7 +6,15 @@ import { useTheme } from "next-themes";
 type Props = {};
 
 const Navbar = (props: Props) => {
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    // avoid mismatch between server and client render
+    return null;
+  }
 
   return (
     <motion.div
@@ -32,7 +40,7 @@ const Navbar = (props: Props) => {
           Connect
         </a>
         <button
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
           className="ml-4 w-20 rounded-full border border-white/20 px-3 py-1 text-xs hover:bg-white/10"
         >
           {theme === "light" ? "🌙 Dark" : "☀️ Light"}
