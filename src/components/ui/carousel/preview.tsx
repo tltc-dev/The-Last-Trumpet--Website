@@ -1,43 +1,88 @@
 "use client";
 import React from "react";
-import { StaticImageData } from "next/image";
-import Carousel from "./carousel";
-import Progress from "./progress";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Progress from "./progress";
+import Carousel from "./carousel";
+import { cn } from "@/lib/utils";
+import AnimatedTitle from "../TitleFadeRandom/AnimatedTittle";
+import { AnimatePresence, motion } from "framer-motion";
+import { Event } from "@/lib/types";
 
 type Props = {
-  images: string[] | StaticImageData[];
+  event: Event[];
   index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
+  navigate: any;
+  className?: string;
 };
 
-const Preview = ({ images, index, setIndex }: Props) => {
+const Preview = ({ event, index, navigate, className }: Props) => {
+  const nextIndex = (index + 1) % event.length;
+
   return (
-    <div className="w-[90vw] flex gap-2 md:w-[350px] h-[150px] border-3 backdrop-blur-lg bg-[#fff]/15 border-[#fff]/5  p-1.5">
-      <Carousel images={images} index={index} className="w-[200px]" />
+    <div
+      className={cn(
+        className,
+        `w-[90vw] md:w-[350px] h-[150px] flex gap-2 border-3 backdrop-blur-lg bg-white/15 border-white/5 p-1.5`
+      )}
+    >
+      <Carousel
+        images={event.map((e) => e.image)}
+        index={nextIndex}
+        className="w-[200px]"
+      />
       <div className="flex flex-col w-full relative">
-        <p className="text-white text-sm">The Last Trumpet Church</p>
-        <p className="text-xs w-40 text-white bg-blend-lighten mix-blend-different text-balance truncate text-ellipsis overflow-hidden  line-clamp-3">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </p>
-        <div className="flex absolute bottom-6 right-0 gap-2">
-          <div
-            onClick={() => setIndex((prev) => prev + 1)}
-            className="button-trans w-7 h-7"
-          >
-            <ChevronLeft size={18} strokeWidth={2} />
-          </div>
-          <div
-            onClick={() => setIndex((prev) => prev - 1)}
-            className="button-trans w-7 h-7"
-          >
-            <ChevronRight size={18} strokeWidth={2} />
-          </div>
+        <div className="h-7">
+          <AnimatedTitle
+            className="text-white text-sm pt-1 gap-1"
+            index={nextIndex}
+            title={event[nextIndex].title}
+          />
         </div>
-        <Progress images={images} index={index} />
+        <AnimatedTitle
+          maxWords={12}
+          index={nextIndex}
+          className="text-xs  w-40 pt-1  text-white/60 gap-0.5"
+          title={event[nextIndex].description}
+        />
+        <div className="flex flex-col w-full absolute bottom-0 right-0 gap-3">
+          <div className="flex gap-2 items-center justify-between">
+            <div className="flex flex-row">
+              <p className="text-xs w-fit text-white/60 pr-1">
+                Upcoming Slide :{" "}
+              </p>
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.p
+                  key={nextIndex}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-xs w-fit text-white/60 text-balance truncate line-clamp-3"
+                >
+                  {nextIndex + 1}
+                </motion.p>
+              </AnimatePresence>
+              <p className="text-xs w-fit text-white/60 pl-1">{` / ${
+                event.length + 1
+              }`}</p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => navigate("prev")}
+                className="button-trans w-7 h-7 text-white"
+              >
+                <ChevronLeft size={18} strokeWidth={2} />
+              </button>
+              <button
+                onClick={() => navigate("next")}
+                className="button-trans w-7 h-7 text-white"
+              >
+                <ChevronRight size={18} strokeWidth={2} />
+              </button>
+            </div>
+          </div>
+          <Progress length={event.length} index={index} />
+        </div>
       </div>
     </div>
   );

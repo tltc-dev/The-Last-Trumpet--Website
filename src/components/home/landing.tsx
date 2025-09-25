@@ -1,30 +1,69 @@
-import React, { useCallback, useEffect, useState } from "react";
+"use client";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { event } from "@/lib/data";
+import BlurEffect from "react-progressive-blur";
 import Carousel from "../ui/carousel/carousel";
 import Preview from "../ui/carousel/preview";
-import { images } from "@/lib/data";
-import BlurEffect from "react-progressive-blur";
+import AnimatedTitle from "../ui/TitleFadeRandom/AnimatedTittle";
 
 const Landing = () => {
   const [index, setIndex] = useState(0);
-  const [next, setNext] = useState(1);
+  const [isNavigating, setIsNavigating] = useState(false);
+  const isNavigatingRef = useRef(false); // synchronous lock
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const nextSlide = useCallback(() => {
-    setIndex((prev) => (prev + 1) % images.length);
-    setNext((prev) => (prev + 1) % images.length);
-  }, [images.length]);
+  const goToSlide = useCallback(
+    (direction: "next" | "prev") => {
+      if (isNavigatingRef.current) return;
+
+      isNavigatingRef.current = true;
+      setIsNavigating(true);
+
+      setIndex((prev) =>
+        direction === "next"
+          ? (prev + 1) % event.length
+          : (prev - 1 + event.length) % event.length
+      );
+
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        isNavigatingRef.current = false;
+        setIsNavigating(false);
+      }, 800);
+    },
+    [event.length]
+  );
 
   useEffect(() => {
-    const interval = setInterval(() => nextSlide(), 5000);
+    const interval = setInterval(() => goToSlide("next"), 6000);
     return () => clearInterval(interval);
-  }, [nextSlide]);
+  }, [index]);
 
   return (
-    <div className="font-sans  h-[70vh] lg:h-[60vw] 2xl:h-screen w-screen bg-black relative overflow-hidden">
-      <Carousel images={images} index={index} />
-      <BlurEffect position="bottom" intensity={30} className="h-32 w-full" />
-      <div className="absolute flex w-full justify-center md:justify-end gap-4 bottom-5 md:bottom-10 md:right-20 z-20">
-        <Preview images={images} index={next} setIndex={setIndex} />
+    <div className="h-screen lg:h-[60vw] 2xl:h-screen w-screen relative overflow-hidden">
+      <Carousel images={event.map((e) => e.image)} index={index} />
+      <div className="absolute bottom-0 w-full h-full  z-20">
+        <div className="padding relative w-full h-full flex items-end pb-10 md:pb-20 lg:pb-32">
+          <AnimatedTitle
+            title={event[index].description}
+            index={index}
+            className="absolute bottom-20 font-light font-poppins text-3xl md:text-4xl xl:text-5xl leading-11 xl:leading-13 md:max-w-[50vw] lg:max-w-[45vw] xl:max-w-[55vw] 2xl:max-w-[40vw]   text-white bg-radial from-black/20 via-transparent to-transparent"
+          />
+          <Preview
+            className="absolute right-5 md:right-10 lg:right-20 bottom-10"
+            event={event}
+            index={index}
+            // setIndex={setIndex}
+            navigate={goToSlide}
+          />
+        </div>
       </div>
+
+      <BlurEffect
+        position="bottom"
+        intensity={30}
+        className="h-60 w-full bg-gradient-to-b from-white/0 to-black/40"
+      />
     </div>
   );
 };
