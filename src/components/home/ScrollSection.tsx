@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import TextAnimation from "../ui/TextAnimation";
-import TextOpacityOnScroll from "../ui/text-on-scroll/TextOnScroll";
+import TextAnimation from "../ui/typography/TextAnimation";
+import TextOpacityOnScroll from "../ui/typography/text-on-scroll/TextOnScroll";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 
@@ -38,11 +38,12 @@ const ScrollSection = (props: Props) => {
       });
       tl.fromTo(
         sectionTwo.current,
-        { y: 0, opacity: 0 },
+        { y: 0, opacity: 0, blur: "10px" },
         {
           y: 0,
           opacity: 1,
           duration: 0.2,
+          blur: "0px",
         }
       );
       tl.to(sectionTwo.current, { opacity: 0, duration: 0.5 });

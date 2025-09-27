@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { event } from "@/lib/data";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { FastAverageColor } from "fast-average-color";
 
 const EventPreview = () => {
+  const [shadowColor, setShadowColor] = useState<string>("rgba(0,0,0,0.3)");
   const [current, setCurrent] = useState(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -19,6 +21,13 @@ const EventPreview = () => {
     };
   }, [current]);
 
+  function onImageLoad(e: any) {
+    new FastAverageColor().getColorAsync(e.target).then((color) => {
+      console.log("Average color:", color);
+      setShadowColor(color.rgba);
+    });
+  }
+
   const handleNext = () => {
     setCurrent((prev) => (prev + 1) % event.length);
   };
@@ -28,8 +37,8 @@ const EventPreview = () => {
   };
 
   return (
-    <div className="padding flex flex-col w-full z-20 relative overflow-hidden ">
-      <div className="relative flex w-full max-w-6xl mx-auto overflow-hidden h-[400px] md:h-[500px] lg:h-[400px] 2xl:h-[600px]">
+    <div className="padding flex flex-col w-full z-20 relative ">
+      <div className="relative flex w-full max-w-6xl mx-auto  h-[400px] md:h-[500px] lg:h-[400px] 2xl:h-[600px]">
         {event.map((evt, i) => {
           const prevIndex = (current - 1 + event.length) % event.length;
           const nextIndex = (current + 1) % event.length;
@@ -41,6 +50,10 @@ const EventPreview = () => {
 
           return (
             <motion.div
+              style={{
+                boxShadow: `0px 15px 50px ${shadowColor}`,
+                transition: "box-shadow 1.5s ease",
+              }}
               key={evt.id}
               animate={{
                 flex: position === "next" ? 2 : position === "hidden" ? 0 : 1,
@@ -54,6 +67,7 @@ const EventPreview = () => {
               }`}
             >
               <Image
+                onLoad={onImageLoad}
                 src={evt.image}
                 alt={evt.title}
                 fill

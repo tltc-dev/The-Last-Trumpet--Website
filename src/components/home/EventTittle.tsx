@@ -1,5 +1,5 @@
 import React from "react";
-import TextAnimation from "../ui/TextAnimation";
+import TextAnimation from "../ui/typography/TextAnimation";
 import { ArrowRight } from "lucide-react";
 
 type Props = {};
