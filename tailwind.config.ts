@@ -2,7 +2,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: "class", // ✅ here, not postcss.config
+  darkMode: "class",
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx}",
@@ -10,6 +10,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        "3xl": "1920px",
+      },
+      maxWidth: {
+        "screen-3xl": "1920px",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
