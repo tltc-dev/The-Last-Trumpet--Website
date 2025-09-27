@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Progress from "./progress";
 import Carousel from "./carousel";
 import { cn } from "@/lib/utils";
-import AnimatedTitle from "../TitleFadeRandom/AnimatedTittle";
+import AnimatedTitle from "../typography/TitleFadeRandom/AnimatedTittle";
 import { AnimatePresence, motion } from "framer-motion";
 import { Event } from "@/lib/types";
 
