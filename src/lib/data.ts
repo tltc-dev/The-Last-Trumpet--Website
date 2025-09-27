@@ -3,6 +3,7 @@ import image2 from "../../public/assets/2.jpg";
 import image3 from "../../public/assets/3.jpg";
 import image4 from "../../public/assets/4.jpg";
 import image5 from "../../public/assets/5.jpg";
+import image6 from "../../public/assets/6.jpg";
 
 export default image1;
 
@@ -22,7 +23,7 @@ export const event = [
   {
     id: 1,
     title: "Sunday Service",
-    image: image3,
+    image: image6,
     date: "Every Sunday",
     time: "10:00 AM - 11:30 AM",
     location: "123 Church St, Tacoma, WA",
@@ -32,7 +33,7 @@ export const event = [
   {
     id: 2,
     title: "Bible Study",
-    image: image4,
+    image: image2,
     date: "Wednesdays",
     time: "7:00 PM - 8:30 PM",
     location: "Online & In-Person",
@@ -69,14 +70,8 @@ export const event = [
     description:
       "An evening of powerful worship and praise. Come and experience the presence of God with us.",
     host: [
-      {
-        profile: image4,
-        name: "Jone",
-      },
-      {
-        profile: image5,
-        name: "Ramesh Devidiga",
-      },
+      { profile: image4, name: "Jone" },
+      { profile: image5, name: "Ramesh Devidiga" },
     ],
   },
   {
@@ -92,11 +87,12 @@ export const event = [
   {
     id: 7,
     title: "Men's Fellowship",
-    image: image4,
+    image: image1,
     date: "Second Saturday of the Month",
     time: "8:00 AM - 10:00 AM",
     location: "Fellowship Hall",
-    description: "A time for",
+    description:
+      "A time for powerful worship and praise. Come and experience the presence of God with us.",
   },
 ];
 
