@@ -1,15 +1,40 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Globe = () => {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const globeRef = useRef<HTMLDivElement | null>(null);
+
+  useGSAP(() => {
+    gsap.to(".globe", {
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "center 20%",
+        scrub: true,
+        // markers: true,
+      },
+      ease: "power1.inOut",
+      y: 600,
+    });
+  });
+
   return (
-    <motion.div className="absolute flex justify-center inset-0 top-70 z-0 ">
+    <motion.div
+      ref={sectionRef}
+      className="absolute flex justify-center inset-0 p-72 z-0 h-screen"
+    >
       <motion.div
         initial={{ scale: 2 }}
         animate={{ rotate: 360 }}
         transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
-        className="blur-[1px] w-36 h-36 rounded-full overflow-hidden"
+        className="globe blur-[1px] w-36 h-36 rounded-full overflow-hidden"
       >
         {" "}
         <svg
