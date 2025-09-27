@@ -1,4 +1,4 @@
-import TextAnimation from "@/components/ui/TextAnimation";
+import TextAnimation from "@/components/ui/typography/TextAnimation";
 import image1 from "@/lib/data";
 import Image from "next/image";
 import React from "react";

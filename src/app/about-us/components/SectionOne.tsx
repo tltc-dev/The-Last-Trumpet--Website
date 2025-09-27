@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import TextOpacityOnScroll from "@/components/ui/text-on-scroll/TextOnScroll";
-import TextAnimation from "@/components/ui/TextAnimation";
+import TextOpacityOnScroll from "@/components/ui/typography/text-on-scroll/TextOnScroll";
+import TextAnimation from "@/components/ui/typography/TextAnimation";
 import { ScrollTrigger } from "gsap/all";
 import image1 from "@/lib/data";
 

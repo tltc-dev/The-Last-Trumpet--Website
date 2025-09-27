@@ -1,16 +1,16 @@
 import React from "react";
-import TextAnimation from "@/components/ui/TextAnimation";
+import TextAnimation from "@/components/ui/typography/TextAnimation";
 import Globe from "@/components/ui/background-flare/globe";
 import EventSection from "./components/EventSection";
 import WorshipGallery from "./components/WorshipGallery";
-import CustomLayout from "@/components/ui/custom-Layout/customLayout";
+import CustomLayout from "@/components/layout/custom-Layout/customLayout";
 import Footer from "@/components/layout/Footer";
 
 type Props = {};
 
 const page = (props: Props) => {
   return (
-    <CustomLayout className="flex flex-col gap-20 py-20 relative w-full overflow-hidden">
+    <CustomLayout className="flex flex-col gap-20 pt-44 relative w-full overflow-hidden">
       <TextAnimation
         phrase={["Stay Involved", "Upcoming Church Activities"]}
         className="heading text-center"
