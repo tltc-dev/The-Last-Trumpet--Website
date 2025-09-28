@@ -1,11 +1,69 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
+import { FastAverageColor } from 'fast-average-color'
+import { useTheme } from 'next-themes'
+import { Event } from '@/lib/types'
 
 
-type Props = {}
+type Props = {
+    index : number ;
+    image : StaticImageData ; // evt.image
+    length : number ; // event.length 
+    evt : Event ;
+}
 
-const Card = (props: Props) => {
+const Card = ({ index , image , length , evt }: Props) => {
+
+    const [shadowColor, setShadowColor] = useState('')
+    const { resolvedTheme } = useTheme();
+    const [current, setCurrent] = useState(0);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    
+    useEffect(() => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+          setCurrent((prev : number) => (prev + 1) % length );
+        }, 3000);
+
+        
+        return () => {
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, [current]);
+
+    const opacity = resolvedTheme === "dark" ? "0.35" : "0.6";
+
+    const prevIndex = (current - 1 + length) % length;
+    const nextIndex = (current + 1) % length;
+    
+    let position: "prev" | "current" | "next" | "hidden" = "hidden";
+    if (index === current) position = "current";
+    else if (index === prevIndex) position = "prev";
+    else if (index === nextIndex) position = "next";
+
+    useEffect(() => {
+
+        const fac = new FastAverageColor();
+        const imgUrl = typeof image === "string" ? image : image.src;
+    
+        fac
+          .getColorAsync(imgUrl, {
+            ignoredColor: [
+              [255, 255, 255, 255],
+              [0, 0, 0, 255],
+            ],
+          })    
+          .then((color) => {
+            console.log("Average color:", color);
+            const [r, g, b] = color.value;
+            setShadowColor(`rgba(${r}, ${g}, ${b}, ${opacity})`);
+            // setTextColor(color.isDark ? "text-white" : "text-black");
+          });
+
+      }, [evt.image, resolvedTheme]);
+
+
   return (
     <motion.div
               style={{
@@ -25,7 +83,6 @@ const Card = (props: Props) => {
               }`}
             >
               <Image
-                onLoad={onImageLoad}
                 src={evt.image}
                 alt={evt.title}
                 fill
