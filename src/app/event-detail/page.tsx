@@ -24,13 +24,12 @@ const page = (props: Props) => {
         as="h2"
       />
       <WorshipGallery />
-
-      <section className="pt-20 padding h-full w-full">
         <TextAnimation
           phrase={["Our Journey on", "YouTube"]}
           className="heading text-center "
           as="h2"
         />
+      <section className="pt-20 padding h-full w-full">
         <div className="w-full h-[500px]  mt-15"></div>
       </section>
       <Footer />
