@@ -5,7 +5,7 @@ export type Host = {
   profile: string | StaticImageData;
 };
 
-export type Event = {
+export type AppEvent = {
   id: number;
   title: string;
   description: string;
@@ -13,5 +13,6 @@ export type Event = {
   date: string;
   time: string;
   location: string;
+  homeCarousel? : boolean ;
   host?: Host[];
 };

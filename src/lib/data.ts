@@ -39,6 +39,8 @@ export const event = [
     location: "Online & In-Person",
     description:
       "Dive deeper into the Word of God with our midweek Bible study sessions. All are welcome!",
+    homeCarousel: true,
+    upcoming: true,
   },
   {
     id: 3,
@@ -49,6 +51,8 @@ export const event = [
     location: "Various Locations",
     description:
       "Make a difference in our community by participating in our monthly outreach programs.",
+    homeCarousel: true,
+    upcoming: false,
   },
   {
     id: 4,
@@ -59,6 +63,8 @@ export const event = [
     location: "Youth Center",
     description:
       "A fun and engaging group for teens to connect, learn, and grow in their faith.",
+    homeCarousel: true,
+    upcoming: true,
   },
   {
     id: 5,
@@ -73,6 +79,7 @@ export const event = [
       { profile: image4, name: "Jone" },
       { profile: image5, name: "Ramesh Devidiga" },
     ],
+    homeCarousel: true,
   },
   {
     id: 6,
@@ -95,6 +102,7 @@ export const event = [
       "A time for powerful worship and praise. Come and experience the presence of God with us.",
   },
 ];
+
 
 export const faqs = [
   {
