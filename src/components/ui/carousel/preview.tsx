@@ -6,17 +6,17 @@ import Carousel from "./carousel";
 import { cn } from "@/lib/utils";
 import AnimatedTitle from "../typography/TitleFadeRandom/AnimatedTittle";
 import { AnimatePresence, motion } from "framer-motion";
-import { Event } from "@/lib/types";
+import { AppEvent } from "@/lib/types";
 
 type Props = {
-  event: Event[];
+  events: AppEvent[];
   index: number;
   navigate: any;
   className?: string;
 };
 
-const Preview = ({ event, index, navigate, className }: Props) => {
-  const nextIndex = (index + 1) % event.length;
+const Preview = ({ events, index, navigate, className }: Props) => {
+  const nextIndex = (index + 1) % events.length;
 
   return (
     <div
@@ -26,7 +26,7 @@ const Preview = ({ event, index, navigate, className }: Props) => {
       )}
     >
       <Carousel
-        images={event.map((e) => e.image)}
+        images={events.map((e) => e.image)}
         index={nextIndex}
         className="w-[200px]"
       />
@@ -35,14 +35,14 @@ const Preview = ({ event, index, navigate, className }: Props) => {
           <AnimatedTitle
             className="text-white text-sm pt-1 gap-1"
             index={nextIndex}
-            title={event[nextIndex].title}
+            title={events[nextIndex].title}
           />
         </div>
         <AnimatedTitle
           maxWords={12}
           index={nextIndex}
           className="text-xs  w-40 pt-1  text-white/60 gap-0.5"
-          title={event[nextIndex].description}
+          title={events[nextIndex].description}
         />
         <div className="flex flex-col w-full absolute bottom-0 right-0 gap-3">
           <div className="flex gap-2 items-center justify-between">
@@ -62,9 +62,7 @@ const Preview = ({ event, index, navigate, className }: Props) => {
                   {nextIndex + 1}
                 </motion.p>
               </AnimatePresence>
-              <p className="text-xs w-fit text-white/60 pl-1">{` / ${
-                event.length + 1
-              }`}</p>
+              <p className="text-xs w-fit text-white/60 pl-1">{` / ${events.length}`}</p>
             </div>
             <div className="flex gap-2">
               <button
@@ -81,7 +79,7 @@ const Preview = ({ event, index, navigate, className }: Props) => {
               </button>
             </div>
           </div>
-          <Progress length={event.length} index={index} />
+          <Progress length={events.length} index={index} />
         </div>
       </div>
     </div>
